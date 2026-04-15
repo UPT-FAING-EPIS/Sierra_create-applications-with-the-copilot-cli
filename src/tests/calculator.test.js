@@ -6,6 +6,9 @@ const {
   subtraction,
   multiplication,
   division,
+  modulo,
+  power,
+  squareRoot,
   calculate,
 } = require("../calculator");
 
@@ -48,6 +51,44 @@ test("division by zero throws an error", () => {
   );
 });
 
+test("modulo returns remainder correctly", () => {
+  assert.equal(modulo(10, 3), 1);
+});
+
+test("modulo handles negative dividends", () => {
+  assert.equal(modulo(-10, 3), -1);
+});
+
+test("modulo by zero throws an error", () => {
+  assert.throws(
+    () => modulo(10, 0),
+    new Error("Modulo by zero is not allowed.")
+  );
+});
+
+test("power raises base to exponent", () => {
+  assert.equal(power(2, 5), 32);
+});
+
+test("power handles zero exponent", () => {
+  assert.equal(power(9, 0), 1);
+});
+
+test("squareRoot returns square root for positive numbers", () => {
+  assert.equal(squareRoot(81), 9);
+});
+
+test("squareRoot of zero is zero", () => {
+  assert.equal(squareRoot(0), 0);
+});
+
+test("squareRoot of negative numbers throws an error", () => {
+  assert.throws(
+    () => squareRoot(-1),
+    new Error("Square root of a negative number is not allowed.")
+  );
+});
+
 test("calculate supports addition aliases", () => {
   assert.equal(calculate("addition", 1, 2), 3);
   assert.equal(calculate("add", 1, 2), 3);
@@ -68,13 +109,29 @@ test("calculate supports division aliases", () => {
   assert.equal(calculate("divide", 12, 3), 4);
 });
 
+test("calculate supports modulo aliases", () => {
+  assert.equal(calculate("modulo", 10, 3), 1);
+  assert.equal(calculate("mod", 10, 3), 1);
+});
+
+test("calculate supports power aliases", () => {
+  assert.equal(calculate("power", 3, 3), 27);
+  assert.equal(calculate("pow", 3, 3), 27);
+});
+
+test("calculate supports square root aliases", () => {
+  assert.equal(calculate("squareRoot", 49), 7);
+  assert.equal(calculate("square-root", 49), 7);
+  assert.equal(calculate("sqrt", 49), 7);
+});
+
 test("calculate is case-insensitive", () => {
   assert.equal(calculate("AdDiTiOn", 5, 5), 10);
 });
 
 test("calculate throws on unsupported operations", () => {
   assert.throws(
-    () => calculate("modulo", 10, 3),
-    new Error('Unsupported operation "modulo".')
+    () => calculate("percentage", 10, 3),
+    new Error('Unsupported operation "percentage".')
   );
 });
